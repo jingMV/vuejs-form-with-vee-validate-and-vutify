@@ -13,6 +13,8 @@ Vue.use(VeeValidate);
 //vue select region
 import vueCountryRegionSelect from 'vue-country-region-select'
 Vue.use(vueCountryRegionSelect)
+//VUEXXXX
+import { store } from './store/store'
 
 export default Vue.extend({
   data: () => ({
@@ -35,5 +37,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

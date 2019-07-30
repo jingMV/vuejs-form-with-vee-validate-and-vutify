@@ -2,8 +2,10 @@
 <div id="hrms">
     <div class="wrapper">
         <section>
+
+            <h1>ERP APPLICATION FORM</h1>
             
-        <form @submit.prevent="validateBeforeSubmit">
+        <form @submit.prevent="validateBeforeSubmit" v-for="neW in neww" :key="neW.Id">
         <h2>Information</h2>
         <!--USERNAME-->
         <div class="input-wrapper">
@@ -285,19 +287,31 @@
 
         <!--TAGS/CATEGORIES-->
         <div class="input-wrapper">
-        <label for="tags/categories" class="labels">Tags / Categories</label><br>
-        <select
+        <label for="tags/categories" class="labels">Tags/Categories</label>
+        <v-select
            name="tags/categories"
            v-model="neW.tagsCategories"
            v-validate="'required'"
-           :class="{'input': true, 'inputStyle': errors.has('tags/categories') }" >
-           <option>Tag A</option>
-           <option>Tag B</option>
-           <option>Tag C</option>
-           <option>Tag D</option>
-           <option>Tag E</option>
-          </select><br>
+          :items="tags"
+           label="Tags/Categories"
+          outline
+        ></v-select>
         <span v-show="errors.has('tags/categories')" class="errorStyle">{{ errors.first('tags/categories') }}</span>
+        </div>
+
+        <!--Rate per Hour-->
+        <div class="input-wrapper">
+        <label for="ratePerHour" class="labels">Rate Per Hour</label>
+            <p>
+                <input name="ratePerHour" 
+                v-model="neW.ratePerHour" 
+                v-validate="'required|numeric'" 
+                :class="{'input': true, 'inputStyle': errors.has('ratePerHour') }" 
+                type="text" placeholder="Rate Per Hour"><br>
+
+                <span v-show="errors.has('ratePerHour')" class="errorStyle">
+                {{ errors.first('ratePerHour') }}</span>
+            </p>
         </div>
 
         <!--Leave Remaining-->
@@ -314,6 +328,44 @@
                 {{ errors.first('leaveRemaining') }}</span>
             </p>
         </div>
+
+        <!--DATE EMPLOYED-->
+        <div class="input-wrapper">
+           
+            <label for="dateEmployed" class="labels">Date Employed</label>
+             <p>
+                 <br>
+            <v-date-picker name="dateEmployed"
+            v-validate="'required'"
+            v-model="neW.picker"
+            color="green" 
+            width="270px">
+            </v-date-picker>
+            <span v-show="errors.has('dateEmployed')" class="errorStyle">
+            {{ errors.first('dateEmployed') }}</span>
+            </p>
+        </div>
+
+        <!--DATE EMPLOYED-->
+        <div class="input-wrapper">
+            
+            <label for="dateTerminated" class="labels">Date Terminated / Resign</label>
+            <p>
+                <br>
+            <v-date-picker name="dateTerminated"
+            v-validate="'required'"
+            v-model="neW.picks"
+            color="light green" 
+            width="270px">
+            </v-date-picker>
+            <span v-show="errors.has('dateTerminated')" class="errorStyle">
+            {{ errors.first('dateTerminated') }}</span>
+            </p>
+        </div>
+        <!--FILES-->
+        
+        
+        
 
 
         <!--SUBMIT BTN-->
@@ -333,32 +385,7 @@ import 'vue-select/dist/vue-select.css';
 export default {
     name: 'Hrms',
     data: () => ({
-        neW: {
-            username: '',
-            password: '',
-            firstName: '',
-            lastName: '',
-            middleName: '',
-            designation: '',
-            descriptionTask: '',
-            email: '',
-            country: '',
-            stateProvince: '',
-            landline1: '',
-            landline2: '',
-            phonenumber1: '',
-            phonenumber2: '',
-            phonenumber3: '',
-            sss: '',
-            philhealth: '',
-            pagibig: '',
-            tagsCategories: '',
-            leaveRemaining: '',
-            },
-            items: [
-                'construction worker','assistant hr' ,'hr manager', 'accountant', 'accountant assistant', 'accounting manager', 'site engineer', 'engineering manager'
-            ],
-        profile: [],
+
     }),
     methods: {
     validateBeforeSubmit() {
@@ -366,21 +393,32 @@ export default {
         if (result) {
           // eslint-disable-next-line
           alert('Form Submitted!');
-          this.profile.push(this.neW)
-          return;
         }
         alert('Correct them errors!');
       });
     }
-    
   },
-  created: function() {
-      this.neW.tagsCategories = "Select"
-  }
+  computed: {
+      neww() {
+          return this.$store.state.neww
+      },
+      items() {
+          return this.$store.state.items
+      },
+    tags() {
+          return this.$store.state.tags
+      }
+  },
 };
 
 </script>
 <style scoped>
+
+section h1 {
+    text-align: center;
+    margin: 10px 0px 20px;
+    color: #008000;
+}
 
 #hrms {
     background: #AED581;
